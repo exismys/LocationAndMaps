@@ -39,11 +39,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        btGetLocation = findViewById(R.id.btGetLocation)
+        btGetLocation = findViewById(R.id.bt_lastlocations)
         btnGetLocationFromAddress = findViewById(R.id.btn_getLocationFromAddress)
         btOpenMap = findViewById(R.id.btOpenMap)
         tvLatitude = findViewById(R.id.tvLatitude)
-        tvLongitude = findViewById(R.id.tvLongitude)
+        tvLongitude = findViewById(R.id.tv_location1)
         tvProvider = findViewById(R.id.tvProvider)
         tvCountry = findViewById(R.id.tvCountry)
         tvAddress = findViewById(R.id.tvAddress)
@@ -54,11 +54,9 @@ class MainActivity : AppCompatActivity() {
         btGetLocation.setOnClickListener {
             getCurrentLocation()
         }
-
         btnGetLocationFromAddress.setOnClickListener {
             getLocationFromAddress(etAddress.text.toString())
         }
-
         btOpenMap.setOnClickListener {
             openMap()
         }
@@ -118,14 +116,14 @@ class MainActivity : AppCompatActivity() {
     private fun getLocationFromAddress(addressStr: String) {
         val coder = Geocoder(this)
         try {
-            val address: List<Address> = coder.getFromLocationName(addressStr, 5)
-            val location = address[0]
-            latitude = location.latitude
-            longitude = location.longitude
+            val addresses: List<Address> = coder.getFromLocationName(addressStr, 5)
+            val address = addresses[0]
+            latitude = address.latitude
+            longitude = address.longitude
             tvLatitude.text = "Latitude: $latitude"
             tvLongitude.text = "Longitude: $longitude"
-            tvCountry.text = "Country: ${address[0].countryName}"
-            tvAddress.text = "Address: ${address[0].getAddressLine(0)}"
+            tvCountry.text = "Country: ${addresses[0].countryName}"
+            tvAddress.text = "Address: ${addresses[0].getAddressLine(0)}"
             btOpenMap.visibility = View.VISIBLE
 
         } catch (e: Exception) {
